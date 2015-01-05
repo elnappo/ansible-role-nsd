@@ -11,7 +11,6 @@ Ubuntu or Debian
 * `nsd_do_ip6: "yes"`
 * `nsd_port: 53`
 * `nsd_hide_version: "yes"`
-* `nsd_ip_transparent: "no"`
 * `nsd_remote_control_enable: "no"` available in NSD v4 or higher (Ubuntu >= 14.04, Debian >= 8)
 * `nsd_remote_control_port: 8952`
 * `nsd_remote_control_interfaces: [127.0.0.1, "::1"]`
