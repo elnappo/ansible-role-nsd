@@ -1,17 +1,20 @@
 ---
 # tasks file for ansible-role-nsd
+- name: Fix https://.launchpad.net/ubuntu/+source/nsd/+bug/1311886
+  user: name=nsd home=/var/lib/nsd shell=/bin/false system=yes createhome=no
+
 - name: Install NSD name server
   apt: name=nsd update_cache=yes cache_valid_time=3600 state=latest
 
 - name: Create SSL keys and certificates
-  command: nsd-control-setup creats=/etc/nsd/nsd_control.pem
+  command: nsd-control-setup creates=/etc/nsd/nsd_control.pem
   notify:
-   - restart-nsd
+   - restart nsd
 
 - name: Create config file
   template: src=nsd.conf.j2 dest=/etc/nsd/nsd.conf owner=root group=root mode=0644 validate='nsd-checkconf %s'
   notify:
-   - restart-nsd
+   - restart nsd
 
 - name: Enable NSD on boot and start it
   service: name=nsd state=started enabled=yes

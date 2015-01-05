@@ -28,19 +28,19 @@ None.
 	        secret: hMUg6ohC7jV01jhL3HYITXD8T5U7pxvUai5TrOb+BPo=
 	        slaves:
 	         - 10.0.0.2
-	         - 10.0.0.3
+	         - ""2001:4860:4860::8844""
 	      - name: example.io
 	        secret: Z+zGmmEOdOzyAZR2xUgld9WL2XwVFVWw6tYBmd9escU=
 	        masters: [10.0.0.1, 10.0.1.1]
 	      - name: example.net
-	        masters: [10.0.0.1]
+	        masters: ["2001:4860:4860::8888"]
 	        slaves:
 	         - 10.0.0.2
 	         - 10.0.0.3
 	      - name: example.org
 	  
 	  roles:
-	    - { role: elnappoo.ansible-role-nsd, zones: "{{ slave_zones }}"}
+	    - { role: elnappoo.nsd, zones: "{{ slave_zones }}"}
 
 ## License
 MIT
