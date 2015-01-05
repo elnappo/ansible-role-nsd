@@ -1,0 +1,202 @@
+#
+# nsd.conf -- the NSD(8) configuration file, nsd.conf(5).
+#
+# Copyright (c) 2001-2011, NLnet Labs. All rights reserved.
+#
+# See LICENSE for the license.
+#
+
+# This is a comment.
+# Sample configuration file
+# include: "file" # include that file's text over here.
+
+# options for the nsd server
+server:
+    # Number of NSD servers to fork.  Put the number of CPUs to use here.
+    server-count: {{ nsd_server_count }}
+
+    # uncomment to specify specific interfaces to bind (default are the
+    # wildcard interfaces 0.0.0.0 and ::0).
+    # ip-address: 1.2.3.4
+    # ip-address: 1.2.3.4@5678
+    # ip-address: 12fe::8ef0
+
+    # Allow binding to non local addresses. Default no.
+    ip-transparent: {{ nsd_ip_transparent }}
+
+    # enable debug mode, does not fork daemon process into the background.
+    # debug-mode: no
+
+    # listen on IPv4 connections
+    do-ip4: {{ nsd_do_ip4 }}
+
+    # listen on IPv6 connections
+    do-ip6: {{ nsd_do_ip6 }}
+
+    # port to answer queries on. default is 53.
+    port: {{ nsd_port }}
+
+    # Verbosity level.
+    # verbosity: 0
+
+    # After binding socket, drop user privileges.
+    # can be a username, id or id.gid.
+    username: nsd
+
+    # Run NSD in a chroot-jail.
+    # make sure to have pidfile and database reachable from there.
+    # by default, no chroot-jail is used.
+    # chroot: "/etc/nsd"
+
+    # The directory for zonefile: files.  The daemon chdirs here.
+    zonesdir: "/etc/nsd/zones"
+
+    # the list of dynamically added zones.
+    # zonelistfile: "/var/lib/nsd/zone.list"
+
+    # the database to use
+    # database: "/var/lib/nsd/nsd.db"
+
+    # log messages to file. Default to stderr and syslog (with
+    # facility LOG_DAEMON).  stderr disappears when daemon goes to bg.
+    logfile: "/var/log/nsd.log"
+
+    # File to store pid for nsd in.
+    pidfile: "/run/nsd/nsd.pid"
+
+    # The file where secondary zone refresh and expire timeouts are kept.
+    # If you delete this file, all secondary zones are forced to be
+    # 'refreshing' (as if nsd got a notify).
+    # xfrdfile: "/var/lib/nsd/xfrd.state"
+
+    # The directory where zone transfers are stored, in a subdir of it.
+    # xfrdir: "/tmp"
+
+    # don't answer VERSION.BIND and VERSION.SERVER CHAOS class queries
+    hide-version: {{ nsd_hide_version }}
+
+    # identify the server (CH TXT ID.SERVER entry).
+    identity: ""
+
+    # NSID identity (hex string, or "ascii_somestring"). default disabled.
+    # nsid: "aabbccdd"
+
+    # Maximum number of concurrent TCP connections per server.
+    # tcp-count: 100
+
+    # Maximum number of queries served on a single TCP connection.
+    # By default 0, which means no maximum.
+    # tcp-query-count: 0
+
+    # Override the default (120 seconds) TCP timeout.
+    # tcp-timeout: 120
+
+    # Preferred EDNS buffer size for IPv4.
+    # ipv4-edns-size: 4096
+
+    # Preferred EDNS buffer size for IPv6.
+    # ipv6-edns-size: 4096
+
+    # statistics are produced every number of seconds. Prints to log.
+    # statistics: 3600
+
+    # Number of seconds between reloads triggered by xfrd.
+    # xfrd-reload-timeout: 1
+
+    # check mtime of all zone files on start and sighup
+    # zonefiles-check: yes
+
+    # RRLconfig
+    # Response Rate Limiting, size of the hashtable. Default 1000000.
+    # rrl-size: 1000000
+
+    # Response Rate Limiting, maximum QPS allowed (from one query source).
+    # Default 200. If set to 0, ratelimiting is disabled. Also set
+    # rrl-whitelist-ratelimit to 0 to disable ratelimit processing.
+    # rrl-ratelimit: 200
+
+    # Response Rate Limiting, number of packets to discard before
+    # sending a SLIP response (a truncated one, allowing an honest
+    # resolver to retry with TCP). Default is 2 (one half of the
+    # queries will receive a SLIP response, 0 disables SLIP (all
+    # packets are discarded), 1 means every request will get a
+    # SLIP response.
+    # rrl-slip: 2
+
+    # Response Rate Limiting, IPv4 prefix length. Addresses are
+    # grouped by netblock.
+    # rrl-ipv4-prefix-length: 24
+
+    # Response Rate Limiting, IPv6 prefix length. Addresses are
+    # grouped by netblock.
+    # rrl-ipv6-prefix-length: 64
+
+    # Response Rate Limiting, maximum QPS allowed (from one query source)
+    # for whitelisted types. Default 2000.
+    # rrl-whitelist-ratelimit: 2000
+    # RRLend
+
+# Remote control config section.
+remote-control:
+    # Enable remote control with nsd-control(8) here.
+    # set up the keys and certificates with nsd-control-setup.
+    control-enable: {{ nsd_remote_control_enable }}
+
+    # what interfaces are listened to for control, default is on localhost.
+{% for control_interface in nsd_remote_control_interfaces %}
+    control-interface: {{ control_interface }}
+{% endfor %}
+
+    # port number for remote control operations (uses TLS over TCP).
+    control-port: {{ nsd_remote_control_port }}
+
+    # nsd server key file for remote control.
+    server-key-file: "/etc/nsd/nsd_server.key"
+
+    # nsd server certificate file for remote control.
+    server-cert-file: "/etc/nsd/nsd_server.pem"
+
+    # nsd-control key file.
+    control-key-file: "/etc/nsd/nsd_control.key"
+
+    # nsd-control certificate file.
+    control-cert-file: "/etc/nsd/nsd_control.pem"
+
+{% for zone in zones %}
+{% if zone.secret is defined %}
+key:
+    name: "{{ zone.name }}-key"
+    algorithm: {{ zone.algorithm|default('hmac-sha256') }}
+    secret: "{{ zone.secret }}"
+
+{% endif %}
+{% endfor %}
+{% for zone in zones %}
+zone:
+    name: "{{ zone.name }}"
+    zonefile: "{{ zone.name }}.zone"
+    
+{% if zone.slaves is defined %}
+{% for slave in zone.slaves %}
+{% if zone.secret is defined %}
+    notify: {{ slave }} {{ zone.name }}-key
+    provide-xfr: {{ slave }} {{ zone.name }}-key
+{% else %}
+    notify: {{ slave }} NOKEY
+    provide-xfr: {{ slave }} NOKEY
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if zone.masters is defined %}
+{% for master in zone.masters %}
+{% if zone.secret is defined %}
+    allow-notify: {{ master }} {{ zone.name }}-key
+    request-xfr: AXFR {{ master }}@53 {{ zone.name }}-key
+{% else %}
+    allow-notify: {{ master }} NOKEY
+    request-xfr: AXFR {{ master }}@53 NOKEY
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% endfor %}

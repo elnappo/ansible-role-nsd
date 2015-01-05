@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  remote_user: root
+  vars:
+    ns1_zones:
+      - name: example.com
+        secret: hMUg6ohC7jV01jhL3HYITXD8T5U7pxvUai5TrOb+BPo=
+        slaves:
+         - 10.0.0.2
+         - 10.0.0.3
+      - name: example.io
+        secret: Z+zGmmEOdOzyAZR2xUgld9WL2XwVFVWw6tYBmd9escU=
+        masters: [10.0.0.1, 10.0.1.1]
+      - name: example.net
+        masters: [10.0.0.1]
+        slaves:
+         - 10.0.0.2
+         - 10.0.0.3
+      - name: example.org
+  
+  roles:
+    - { role: ansible-role-nsd, zones: "{{ slave_zones }}"}
