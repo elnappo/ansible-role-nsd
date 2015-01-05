@@ -28,7 +28,7 @@ None.
 	        secret: hMUg6ohC7jV01jhL3HYITXD8T5U7pxvUai5TrOb+BPo=
 	        slaves:
 	         - 10.0.0.2
-	         - ""2001:4860:4860::8844""
+	         - "2001:4860:4860::8844"
 	      - name: example.io
 	        secret: Z+zGmmEOdOzyAZR2xUgld9WL2XwVFVWw6tYBmd9escU=
 	        masters: [10.0.0.1, 10.0.1.1]
