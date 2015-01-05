@@ -19,4 +19,4 @@
       - name: example.org
   
   roles:
-    - { role: ansible-role-nsd, zones: "{{ slave_zones }}"}
+    - { role: ansible-role-nsd, zones: "{{ ns1_zones }}"}
