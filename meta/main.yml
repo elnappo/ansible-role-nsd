@@ -7,10 +7,11 @@ galaxy_info:
   platforms:
   - name: Ubuntu
     versions:
-    - all
+    - trusty
+    - utopic
   - name: Debian
     versions:
-    - all
+    - jessie
   categories:
   - networking
 

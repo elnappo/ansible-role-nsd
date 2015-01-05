@@ -6,7 +6,7 @@ nsd_do_ip4: "yes"
 nsd_do_ip6: "yes"
 nsd_port: 53
 nsd_hide_version: "yes"
-# new in nsd v4 (nsd v4 is available in Ubuntu 14.04 or higher)
+nsd_ip_transparent: "no"
 nsd_remote_control_enable: "no"
 nsd_remote_control_port: 8952
 nsd_remote_control_interfaces:

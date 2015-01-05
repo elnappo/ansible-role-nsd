@@ -8,19 +8,12 @@
 
 - name: Create SSL keys and certificates
   command: nsd-control-setup creates=/etc/nsd/nsd_control.pem
-  when: nsd_remote_control_enable == "yes" and ((ansible_distribution=='Ubuntu' and {{ ansible_distribution_version | version_compare('14.04', '>=') }}) or (ansible_distribution=='Debian' and {{ ansible_distribution_version | version_compare('8', '>=') }}))
+  when: nsd_remote_control_enable == "yes"
   notify:
    - restart nsd
 
 - name: Create config file
   template: src=nsd.conf.j2 dest=/etc/nsd/nsd.conf owner=root group=root mode=0644 validate='nsd-checkconf %s'
-  when: (ansible_distribution=='Ubuntu' and {{ ansible_distribution_version | version_compare('14.04', '>=') }}) or (ansible_distribution=='Debian' and {{ ansible_distribution_version | version_compare('8', '>=') }})
-  notify:
-   - restart nsd
-
-- name: Create config file
-  template: src=nsd.conf.j2 dest=/etc/nsd3/nsd.conf owner=root group=root mode=0644 validate='nsd-checkconf %s'
-  when: (ansible_distribution=='Ubuntu' and {{ ansible_distribution_version | version_compare('14.04', '<') }}) or (ansible_distribution=='Debian' and {{ ansible_distribution_version | version_compare('8', '<') }})
   notify:
    - restart nsd
 

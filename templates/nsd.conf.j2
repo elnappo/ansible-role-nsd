@@ -22,7 +22,7 @@ server:
     # ip-address: 12fe::8ef0
 
     # Allow binding to non local addresses. Default no.
-    # ip-transparent: no
+    ip-transparent: {{ nsd_ip_transparent }}
 
     # enable debug mode, does not fork daemon process into the background.
     # debug-mode: no
@@ -136,7 +136,6 @@ server:
     # rrl-whitelist-ratelimit: 2000
     # RRLend
 
-{% if nsd_remote_control_enable == "yes" %}
 # Remote control config section.
 remote-control:
     # Enable remote control with nsd-control(8) here.
@@ -162,7 +161,6 @@ remote-control:
 
     # nsd-control certificate file.
     control-cert-file: "/etc/nsd/nsd_control.pem"
-{% endif %}
 
 {% for zone in zones %}
 {% if zone.secret is defined %}

@@ -2,7 +2,7 @@
 
 Installs and start nsd on boot. Get more informations about nsd at [https://www.nlnetlabs.nl/projects/nsd/]()
 ## Requirements
-Ubuntu or Debian
+Ubuntu (>=14.04) or Debian (>=8)
 
 ## Role Variables
 * `nsd_setup_ufw: true` Add a ufw rule to allow port `nsd_port`
@@ -11,7 +11,7 @@ Ubuntu or Debian
 * `nsd_do_ip6: "yes"`
 * `nsd_port: 53`
 * `nsd_hide_version: "yes"`
-* `nsd_remote_control_enable: "no"` available in NSD v4 or higher (Ubuntu >= 14.04, Debian >= 8)
+* `nsd_remote_control_enable: "no"`
 * `nsd_remote_control_port: 8952`
 * `nsd_remote_control_interfaces: [127.0.0.1, "::1"]`
 
