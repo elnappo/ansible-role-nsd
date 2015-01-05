@@ -7,7 +7,8 @@
   apt: name=nsd update_cache=yes cache_valid_time=3600 state=latest
 
 - name: Create SSL keys and certificates
-  command: /usr/sbin/nsd-control-setup creates=/etc/nsd/nsd_control.pem
+  command: nsd-control-setup creates=/etc/nsd/nsd_control.pem
+  when: nsd_remote_control_enable == "yes"
   notify:
    - restart nsd
 
