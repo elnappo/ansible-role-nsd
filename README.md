@@ -5,16 +5,16 @@ Installs and start nsd on boot. Get more informations about nsd at [https://www.
 Ubuntu or Debian
 
 ## Role Variables
-* `nsd_setup_ufw: true` : Add a ufw rule to allow port `nsd_port`
+* `nsd_setup_ufw: true` Add a ufw rule to allow port `nsd_port`
 * `nsd_server_count: 1`
 * `nsd_do_ip4: "yes"`
 * `nsd_do_ip6: "yes"`
 * `nsd_port: 53`
 * `nsd_hide_version: "yes"`
 * `nsd_ip_transparent: "no"`
-* `nsd_remote_control_enable: "no"`
+* `nsd_remote_control_enable: "no"` available in NSD v4 or higher (Ubuntu >= 14.04, Debian >= 8)
 * `nsd_remote_control_port: 8952`
-* `nsd_remote_control_interfaces: [127.0.0.1, ::1]`
+* `nsd_remote_control_interfaces: [127.0.0.1, "::1"]`
 
 ## Dependencies
 None.
@@ -40,7 +40,7 @@ None.
 	      - name: example.org
 	  
 	  roles:
-	    - { role: elnappoo.nsd, zones: "{{ slave_zones }}"}
+	    - { role: elnappoo.nsd, zones: "{{ ns1_zones }}"}
 
 ## License
 MIT
