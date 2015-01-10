@@ -18,3 +18,6 @@ script:
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
   - /usr/sbin/nsd-checkconf -v /etc/nsd/nsd.conf
+after_script:
+  - nsd -v
+  - cat /etc/nsd/nsd.conf
