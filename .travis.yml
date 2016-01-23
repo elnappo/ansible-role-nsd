@@ -14,11 +14,7 @@ install:
 script:
   - ansible-playbook -i inventory --syntax-check --list-tasks test.yml
   - ansible-playbook -i inventory --connection=local --sudo -vvvv test.yml
-  - >
-    ansible-playbook -i inventory --connection=local --sudo test.yml
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
+  - ansible-playbook -i inventory --connection=local --sudo -vvvv test.yml
   - /usr/sbin/nsd-checkconf -v /etc/nsd/nsd.conf
 after_script:
   - nsd -v

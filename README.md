@@ -1,4 +1,4 @@
-# ansible-role-nsd
+# ansible-role-nsd [![Build Status](https://travis-ci.org/elnappo/ansible-role-nsd.svg?branch=master)](https://travis-ci.org/elnappo/ansible-role-nsd)
 Installs and start nsd on boot. This playbook does not handle zone files! Get more informations about nsd at [https://www.nlnetlabs.nl/projects/nsd/]()
 
 ## Requirements
