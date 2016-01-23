@@ -1,11 +1,13 @@
 ---
+sudo: required
+dist: trusty
 language: python
 python: "2.7"
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq python-apt python-pycurl curl ufw
 install:
-  - pip install ansible
+  - pip install ansible --upgrade
   - ansible --version
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
   - echo localhost > inventory
@@ -21,3 +23,4 @@ script:
 after_script:
   - nsd -v
   - cat /etc/nsd/nsd.conf
+  - ls -la /etc/nsd/
