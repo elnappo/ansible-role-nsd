@@ -1,19 +1,18 @@
 ---
 galaxy_info:
-  author: elnappo <elnappoo@gmail.com>
-  description: Install nsd
+  author: elnappo <elnappo@nerdpol.io>
+  description: Install and configure nsd name server
   license: MIT
   min_ansible_version: 1.9
   platforms:
   - name: Ubuntu
     versions:
     - trusty
-    - vivid
   - name: Debian
     versions:
     - jessie
-    - stretch
-  categories:
+  galaxy_tags:
   - networking
+  - dns
 
 dependencies: []
