@@ -1,6 +1,6 @@
 ---
 # tasks file for ansible-role-nsd
-- name: Fix https://.launchpad.net/ubuntu/+source/nsd/+bug/1311886
+- name: Fix https://launchpad.net/ubuntu/+source/nsd/+bug/1311886
   user: name=nsd home=/var/lib/nsd shell=/bin/false system=yes createhome=no
 
 - name: Install NSD name server
