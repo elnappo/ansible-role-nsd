@@ -8,11 +8,13 @@ Installs and start nsd on boot. This playbook does not handle zone files! Get mo
 ## Role Variables
 * `nsd_setup_ufw: true` add a ufw rule to allow port `nsd_port`
 * `nsd_server_count: 1` use this number of cpu cores
-* `nsd_do_ip4: "yes"`
-* `nsd_do_ip6: "yes"`
+* `nsd_do_ip4: true`
+* `nsd_do_ip6: true`
 * `nsd_port: 53`
-* `nsd_hide_version: "yes"`
-* `nsd_remote_control_enable: "no"`
+* `nsd_hide_version: true`
+* `nsd_identity: unidentified server`
+* `nsd_ip_transparent: false`
+* `nsd_remote_control_enable: false`
 * `nsd_remote_control_port: 8952`
 * `nsd_remote_control_interfaces: [127.0.0.1, "::1"]`
 
