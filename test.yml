@@ -2,6 +2,7 @@
 - hosts: localhost
   remote_user: root
   vars:
+    nsd_port: 5353
     ns1_zones:
       - name: example.com
         secret: hMUg6ohC7jV01jhL3HYITXD8T5U7pxvUai5TrOb+BPo=
@@ -17,6 +18,6 @@
          - 10.0.0.2
          - 10.0.0.3
       - name: example.org
-  
+
   roles:
     - { role: ansible-role-nsd, zones: "{{ ns1_zones }}"}
