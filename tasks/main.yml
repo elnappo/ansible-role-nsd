@@ -1,22 +1,35 @@
 ---
 # tasks file for ansible-role-nsd
 - name: Install NSD name server
-  apt: name=nsd update_cache=yes cache_valid_time=3600 state=latest
+  package:
+    name: nsd
+    state: present
 
 - name: Create SSL keys and certificates
   command: nsd-control-setup creates=/etc/nsd/nsd_control.pem
   when: nsd_remote_control_enable == "yes"
   notify:
-   - restart nsd
+    - restart nsd
 
 - name: Create config file
-  template: src=nsd.conf.j2 dest=/etc/nsd/nsd.conf owner=root group=root mode=0644 validate='nsd-checkconf %s'
+  template:
+    src: nsd.conf.j2
+    dest: /etc/nsd/nsd.conf
+    owner: root
+    group: root
+    mode: 0644
+    validate: 'nsd-checkconf %s'
   notify:
-   - restart nsd
+    - restart nsd
 
 - name: Enable NSD on boot and start it
-  service: name=nsd state=started enabled=yes
+  service:
+    name: nsd
+    state: started
+    enabled: true
 
 - name: Setup ufw firewall rule
-  ufw: rule=allow port={{ nsd_port }}
+  ufw:
+    rule: allow
+    port: "{{ nsd_port }}"
   when: nsd_setup_ufw
