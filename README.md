@@ -1,11 +1,14 @@
 # ansible-role-nsd [![Build Status](https://travis-ci.org/elnappo/ansible-role-nsd.svg?branch=master)](https://travis-ci.org/elnappo/ansible-role-nsd)
+
 Installs and start NSD name server on boot. This playbook does not handle zone files! Get more
 information about nsd at [https://www.nlnetlabs.nl/projects/nsd/]().
 
 ## Requirements
+
 * Ubuntu or Debian
 
 ## Role Variables
+
 * `nsd_setup_ufw: true` add a ufw rule to allow port `nsd_port`
 * `nsd_server_count: 1` use this number of cpu cores
 * `nsd_do_ip4: true`
@@ -19,9 +22,11 @@ information about nsd at [https://www.nlnetlabs.nl/projects/nsd/]().
 * `nsd_remote_control_interfaces: [127.0.0.1, "::1"]`
 
 ## Dependencies
+
 None.
 
 ## Example Playbook
+
 ```yaml
 - hosts: ns1.example.com
   remote_user: root
@@ -47,7 +52,9 @@ None.
 ```
 
 ## License
+
 MIT
 
 ## Author Information
+
 elnappo <elnappo@nerdpol.io>
